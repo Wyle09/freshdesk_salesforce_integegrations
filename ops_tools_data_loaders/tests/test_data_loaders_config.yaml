@@ -1,0 +1,117 @@
+ENV: $CS_ENV|stg
+
+PROJECT_FOLDERS:
+  PARENT_DIRECTORIES:
+    - 'data'
+  CHILD_DIRECTORIES:
+    - data:
+        - 'fd_archive'
+        - 'sf_archive'
+        - 'ch_archive'
+
+
+# -------- Freshdesk config -------- #
+FRESHDESK_API:
+  DOMAIN: 'https://embraceio.freshdesk.com'
+  PWD: $CS_FRESHDESK_PWD
+  API_KEY: $CS_FRESHDESK_API_KEY
+  INTERVAL_DAYS: $INTERVAL_DAYS|-7
+  ENDPOINTS: 
+    - TYPE: 'fd_agents'
+      URL: 'https://embraceio.freshdesk.com/api/v2/agents?per_page=100'
+    - TYPE: 'fd_companies'
+      URL: 'https://embraceio.freshdesk.com/api/v2/companies?per_page=100'
+    - TYPE: 'fd_contacts'
+      URL: 'https://embraceio.freshdesk.com/api/v2/contacts?per_page=100&_updated_since='
+    - TYPE: 'fd_groups'
+      URL: 'https://embraceio.freshdesk.com/api/v2/groups?per_page=100'
+    - TYPE: 'fd_tickets'
+      URL: 'https://embraceio.freshdesk.com/api/v2/tickets?per_page=100&include=stats&updated_since='
+    - TYPE: 'fd_ticket_fields'
+      URL: 'https://embraceio.freshdesk.com/api/v2/ticket_fields?per_page=100'
+    - TYPE: 'fd_tickets_spam'
+      URL: 'https://embraceio.freshdesk.com/api/v2/tickets?per_page=100&filter=spam&updated_since='
+    - TYPE: 'fd_tickets_deleted'
+      URL: 'https://embraceio.freshdesk.com/api/v2/tickets?per_page=100&filter=deleted&updated_since='
+
+
+# -------- Salesforce config -------- #
+SALESFORCE_API:
+  DOMAIN: 'https://embraceio.my.salesforce.com'
+  USERNAME: $CS_SALESFORCE_USERNAME
+  PWD: $CS_SALESFORCE_PWD
+  SECURITY_TOKEN: $CS_SALESFORCE_API_KEY
+  ENDPOINTS:
+    - TYPE: 'sf_managed_customers'
+      SOQL: "SELECT Id, Name, Email_Domain__c, CS_Owner2__r.Name, Account_Stage__c, Account_Stage_Detail__c, Band__c, ARR__c, Global_Renewal_Date__c, RISK_RATING__c, Customer_Won_Date__c, Customer_Churned_Date__c FROM Account WHERE CS_Owner2__r.Name != null AND Account_Stage__c IN ('Customer', 'Past Customer') ORDER BY Name ASC"
+    - TYPE: 'sf_unmanaged_customers'
+      SOQL: "SELECT Id, Name, Email_Domain__c, CS_Owner2__r.Name, Account_Stage__c, Account_Stage_Detail__c, Band__c, ARR__c, Global_Renewal_Date__c, RISK_RATING__c, Customer_Won_Date__c, Customer_Churned_Date__c FROM Account WHERE CS_Owner2__r.Name = null AND Account_Stage__c IN ('Customer', 'Past Customer') ORDER BY Name ASC"
+    - TYPE: 'sf_prospects'
+      SOQL: "SELECT Id, Account.Name, Account.Email_Domain__c, Account.Account_Stage__c, Account.Account_Stage_Detail__c, SE_Owner__r.Name, Deal_Band__c, Bookings_AMT__c, CloseDate FROM Opportunity WHERE Account.Account_Stage__c IN ('Opportunity', 'Attempted', 'Connected') ORDER BY Account.Name ASC"
+    - TYPE: 'sf_contacts'
+      SOQL: "SELECT id, Name, email, Contact_Status__c, Contact_Status_Detail__c, AccountId, Account.Name FROM contact WHERE email != '' AND( (NOT email LIKE '%@gmail.com') AND (NOT email LIKE '%@outlook.com') AND (NOT email LIKE '%@yahoo.com') AND (NOT email LIKE '%@freshdesk.com') AND (NOT email LIKE '%@icloud.com'))"
+    # - TYPE: "sf_sessions"
+    #   SOQL: "select App_ID__c, Name, Date__c, Background_Session_Count__c, Foreground_Session_Count__c, framework__c, OS__c from Sessions__c"
+
+
+# -------- MYSQL config -------- #
+MYSQL_DB:
+  DB_USERNAME: $CS_MYSQL_USERNAME
+  DB_PWD: $CS_MYSQL_PWD
+  HOST: $CS_MYSQL_HOST
+  PORT: $CS_MYSQL_PORT
+  SCHEMAS:
+    - 'customer_success_freshdesk'
+    - 'customer_success_salesforce'
+
+
+# -------- SQL queries-------- #
+SQL_QUERIES:
+  - SCRIPT: 'fd_agents_main_table.sql'
+    SCHEMA: 'customer_success_freshdesk'
+  - SCRIPT: 'fd_companies_main_table.sql'
+    SCHEMA: 'customer_success_freshdesk'
+  - SCRIPT: 'fd_contacts_main_table.sql'
+    SCHEMA: 'customer_success_freshdesk'
+  - SCRIPT: 'fd_groups_main_table.sql'
+    SCHEMA: 'customer_success_freshdesk'
+  - SCRIPT: 'fd_ticket_fields_main_table.sql'    
+    SCHEMA: 'customer_success_freshdesk'
+  - SCRIPT: 'fd_tickets_spam_deleted_main_table.sql'
+    SCHEMA: 'customer_success_freshdesk'
+  - SCRIPT: 'fd_tickets_main_table.sql'
+    SCHEMA: 'customer_success_freshdesk'
+  - SCRIPT: 'sf_managed_customers_main_table.sql'
+    SCHEMA: 'customer_success_salesforce'
+  - SCRIPT: 'sf_unmanaged_customers_main_table.sql'
+    SCHEMA: 'customer_success_salesforce'
+  - SCRIPT: 'sf_prospects_main_table.sql'
+    SCHEMA: 'customer_success_salesforce'
+  - SCRIPT: 'sf_contacts_main_table.sql'
+    SCHEMA: 'customer_success_salesforce'
+  - SCRIPT: 'sf_accounts_table.sql'
+    SCHEMA: 'customer_success_salesforce'
+  - SCRIPT: 'fd_tickets_details_view.sql'
+    SCHEMA: 'customer_success_freshdesk'
+  - SCRIPT: 'fd_tickets_history_table.sql'
+    SCHEMA: 'customer_success_freshdesk'
+  - SCRIPT: 'fd_company_domains_table.sql'
+    SCHEMA: 'customer_success_freshdesk'
+  - SCRIPT: 'fd_company_webhook_table.sql'
+    SCHEMA: 'customer_success_freshdesk'
+
+
+# -------- Webhooks -------- #
+WEBHOOKS:
+  - TYPE: 'FRESDESK_COMAPNY_INFO'
+    URL: 'https://hook.us1.make.com/e6e8dwiqw2nn6ht68d9ks65s1q17jfg8'
+    SCHEMA: 'customer_success_freshdesk'
+    QUERY: "SELECT * FROM fd_company_webhook;"
+    NUM_OF_PAYLOADS: 100
+    TIME: 2200
+  - TYPE: 'FRESDESK_COMAPNY_INFO_RECENT_UPDATED_TICKETS'
+    URL: 'https://hook.us1.make.com/e6e8dwiqw2nn6ht68d9ks65s1q17jfg8'
+    SCHEMA: 'customer_success_freshdesk'
+    QUERY: "SELECT * FROM fd_company_webhook WHERE company_name IN (SELECT company_name FROM fd_tickets_details WHERE (LOWER(status) NOT IN ('closed', 'resolved') OR COALESCE(resolved_date, closed_date) >= ADDDATE(DATE_FORMAT(now(), '%%Y-%%m-%%d'), INTERVAL -2 DAY)));"
+    NUM_OF_PAYLOADS: 1
+    TIME: 0
