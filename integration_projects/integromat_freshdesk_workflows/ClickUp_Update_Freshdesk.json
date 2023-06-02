@@ -1,0 +1,2631 @@
+{
+    "name": "ClickUp >> Update Freshdesk",
+    "flow": [
+        {
+            "id": 30,
+            "module": "clickup:watchTasks",
+            "version": 2,
+            "parameters": {
+                "teamId": 2458,
+                "__IMTHOOK__": 165938
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 300
+                },
+                "restore": {
+                    "parameters": {
+                        "__IMTHOOK__": {
+                            "data": {
+                                "editable": "false"
+                            },
+                            "label": "ClickUp >> Update Freshdesk"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTHOOK__",
+                        "type": "hook:clickup",
+                        "label": "Webhook",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "id": 31,
+            "module": "clickup:getATask",
+            "version": 2,
+            "parameters": {
+                "__IMTCONN__": 10432
+            },
+            "filter": {
+                "name": "Task ID is Not Null",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{30.task_id}}",
+                            "o": "exist"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "task_id": "{{30.task_id}}",
+                "map_or_select": "map"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 300
+                },
+                "restore": {
+                    "expect": {
+                        "map_or_select": {
+                            "label": "Map"
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "clickup2"
+                            },
+                            "label": "My ClickUp connection (Wyle Cordero)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:clickup2",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "map_or_select",
+                        "type": "select",
+                        "label": "Map or Select",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "map",
+                                "select"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "task_id",
+                        "type": "text",
+                        "label": "Task ID",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "Task ID"
+                    },
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "Task Name"
+                    },
+                    {
+                        "name": "text_content",
+                        "type": "text",
+                        "label": "Text Content"
+                    },
+                    {
+                        "name": "description",
+                        "type": "text",
+                        "label": "Description"
+                    },
+                    {
+                        "name": "status",
+                        "spec": [
+                            {
+                                "name": "status",
+                                "type": "text",
+                                "label": "Status"
+                            },
+                            {
+                                "name": "color",
+                                "type": "color",
+                                "label": "Color"
+                            },
+                            {
+                                "name": "type",
+                                "type": "text",
+                                "label": "Type"
+                            },
+                            {
+                                "name": "orderindex",
+                                "type": "number",
+                                "label": "Order Index"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Status"
+                    },
+                    {
+                        "name": "orderindex",
+                        "type": "text",
+                        "label": "Order Index"
+                    },
+                    {
+                        "name": "date_created",
+                        "type": "date",
+                        "label": "Date Created"
+                    },
+                    {
+                        "name": "date_updated",
+                        "type": "date",
+                        "label": "Date Updated"
+                    },
+                    {
+                        "name": "date_closed",
+                        "type": "date",
+                        "label": "Date Closed"
+                    },
+                    {
+                        "name": "archived",
+                        "type": "boolean",
+                        "label": "Archived"
+                    },
+                    {
+                        "name": "creator",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "number",
+                                "label": "User ID"
+                            },
+                            {
+                                "name": "username",
+                                "type": "text",
+                                "label": "Username"
+                            },
+                            {
+                                "name": "color",
+                                "type": "color",
+                                "label": "Color"
+                            },
+                            {
+                                "name": "profilePicture",
+                                "type": "text",
+                                "label": "Profile Picture"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Creator"
+                    },
+                    {
+                        "name": "assignees",
+                        "spec": {
+                            "spec": [
+                                {
+                                    "name": "id",
+                                    "type": "number",
+                                    "label": "User ID"
+                                },
+                                {
+                                    "name": "username",
+                                    "type": "text",
+                                    "label": "Username"
+                                },
+                                {
+                                    "name": "color",
+                                    "type": "color",
+                                    "label": "Color"
+                                },
+                                {
+                                    "name": "initials",
+                                    "type": "text",
+                                    "label": "Initials"
+                                },
+                                {
+                                    "name": "profilePicture",
+                                    "type": "url",
+                                    "label": "Profile Picture"
+                                }
+                            ],
+                            "type": "collection"
+                        },
+                        "type": "array",
+                        "label": "Assignees"
+                    },
+                    {
+                        "name": "checklists",
+                        "spec": {
+                            "spec": [
+                                {
+                                    "name": "id",
+                                    "type": "text",
+                                    "label": "Checklist ID"
+                                },
+                                {
+                                    "name": "task_id",
+                                    "type": "text",
+                                    "label": "Task ID"
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Checklist Name"
+                                },
+                                {
+                                    "name": "date_created",
+                                    "type": "date",
+                                    "label": "Date Created"
+                                },
+                                {
+                                    "name": "orderindex",
+                                    "type": "number",
+                                    "label": "Order Index"
+                                },
+                                {
+                                    "name": "resolved",
+                                    "type": "number",
+                                    "label": "Resolved"
+                                },
+                                {
+                                    "name": "unresolved",
+                                    "type": "number",
+                                    "label": "Unresolved"
+                                },
+                                {
+                                    "name": "items",
+                                    "spec": {
+                                        "spec": [
+                                            {
+                                                "name": "id",
+                                                "type": "text",
+                                                "label": "Checklist Item ID"
+                                            },
+                                            {
+                                                "name": "name",
+                                                "type": "text",
+                                                "label": "Checklist Item Name"
+                                            },
+                                            {
+                                                "name": "orderindex",
+                                                "type": "number",
+                                                "label": "Order Index"
+                                            },
+                                            {
+                                                "name": "assignee",
+                                                "spec": [
+                                                    {
+                                                        "name": "id",
+                                                        "type": "number",
+                                                        "label": "User ID"
+                                                    },
+                                                    {
+                                                        "name": "username",
+                                                        "type": "text",
+                                                        "label": "Username"
+                                                    },
+                                                    {
+                                                        "name": "email",
+                                                        "type": "text",
+                                                        "label": "Email"
+                                                    },
+                                                    {
+                                                        "name": "color",
+                                                        "type": "color",
+                                                        "label": "Color"
+                                                    },
+                                                    {
+                                                        "name": "initials",
+                                                        "type": "text",
+                                                        "label": "Initials"
+                                                    },
+                                                    {
+                                                        "name": "profilePicture",
+                                                        "type": "url",
+                                                        "label": "Profile Picture"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "Assignee"
+                                            },
+                                            {
+                                                "name": "resolved",
+                                                "type": "boolean",
+                                                "label": "Resolved"
+                                            },
+                                            {
+                                                "name": "parent",
+                                                "type": "text",
+                                                "label": "Parent"
+                                            },
+                                            {
+                                                "name": "date_created",
+                                                "type": "date",
+                                                "label": "Date Created"
+                                            },
+                                            {
+                                                "name": "children",
+                                                "spec": {
+                                                    "spec": [
+                                                        {
+                                                            "name": "id",
+                                                            "type": "text",
+                                                            "label": "Checklist Item ID"
+                                                        },
+                                                        {
+                                                            "name": "name",
+                                                            "type": "text",
+                                                            "label": "Checklist Item Name"
+                                                        },
+                                                        {
+                                                            "name": "orderindex",
+                                                            "type": "number",
+                                                            "label": "Order Index"
+                                                        },
+                                                        {
+                                                            "name": "assignee",
+                                                            "spec": [
+                                                                {
+                                                                    "name": "id",
+                                                                    "type": "number",
+                                                                    "label": "User ID"
+                                                                },
+                                                                {
+                                                                    "name": "username",
+                                                                    "type": "text",
+                                                                    "label": "Username"
+                                                                },
+                                                                {
+                                                                    "name": "email",
+                                                                    "type": "text",
+                                                                    "label": "Email"
+                                                                },
+                                                                {
+                                                                    "name": "color",
+                                                                    "type": "color",
+                                                                    "label": "Color"
+                                                                },
+                                                                {
+                                                                    "name": "initials",
+                                                                    "type": "text",
+                                                                    "label": "Initials"
+                                                                },
+                                                                {
+                                                                    "name": "profilePicture",
+                                                                    "type": "url",
+                                                                    "label": "Profile Picture"
+                                                                }
+                                                            ],
+                                                            "type": "collection",
+                                                            "label": "Assignee"
+                                                        },
+                                                        {
+                                                            "name": "resolved",
+                                                            "type": "boolean",
+                                                            "label": "Resolved"
+                                                        },
+                                                        {
+                                                            "name": "parent",
+                                                            "type": "text",
+                                                            "label": "Parent"
+                                                        },
+                                                        {
+                                                            "name": "date_created",
+                                                            "type": "date",
+                                                            "label": "Date Created"
+                                                        },
+                                                        {
+                                                            "name": "children",
+                                                            "type": "array",
+                                                            "label": "Children"
+                                                        }
+                                                    ],
+                                                    "type": "collection"
+                                                },
+                                                "type": "array",
+                                                "label": "Children"
+                                            }
+                                        ],
+                                        "type": "collection"
+                                    },
+                                    "type": "array",
+                                    "label": "Items"
+                                }
+                            ],
+                            "type": "collection"
+                        },
+                        "type": "array",
+                        "label": "Checklists"
+                    },
+                    {
+                        "name": "tags",
+                        "spec": {
+                            "spec": [
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Name"
+                                },
+                                {
+                                    "name": "tag_fg",
+                                    "type": "color",
+                                    "label": "Tag Fg"
+                                },
+                                {
+                                    "name": "tag_bg",
+                                    "type": "color",
+                                    "label": "Tag Bg"
+                                }
+                            ],
+                            "type": "collection"
+                        },
+                        "type": "array",
+                        "label": "Tags"
+                    },
+                    {
+                        "name": "parent",
+                        "type": "text",
+                        "label": "Parent"
+                    },
+                    {
+                        "name": "priority",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "priority",
+                                "type": "text",
+                                "label": "Priority"
+                            },
+                            {
+                                "name": "color",
+                                "type": "color",
+                                "label": "Color"
+                            },
+                            {
+                                "name": "orderindex",
+                                "type": "text",
+                                "label": "Order Index"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Priority"
+                    },
+                    {
+                        "name": "due_date",
+                        "type": "date",
+                        "label": "Due Date"
+                    },
+                    {
+                        "name": "start_date",
+                        "type": "date",
+                        "label": "Start Date"
+                    },
+                    {
+                        "name": "time_estimate",
+                        "type": "integer",
+                        "label": "Time Estimate (in minutes)"
+                    },
+                    {
+                        "name": "time_spent",
+                        "type": "any",
+                        "label": "Time Spent"
+                    },
+                    {
+                        "name": "list",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "List ID"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "List Name"
+                            },
+                            {
+                                "name": "access",
+                                "type": "boolean",
+                                "label": "Access"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "List"
+                    },
+                    {
+                        "name": "project",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "Project ID"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Project Name"
+                            },
+                            {
+                                "name": "hidden",
+                                "type": "boolean",
+                                "label": "Hidden"
+                            },
+                            {
+                                "name": "access",
+                                "type": "boolean",
+                                "label": "Access"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Project"
+                    },
+                    {
+                        "name": "folder",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "Folder ID"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Folder Name"
+                            },
+                            {
+                                "name": "hidden",
+                                "type": "boolean",
+                                "label": "Hidden"
+                            },
+                            {
+                                "name": "access",
+                                "type": "boolean",
+                                "label": "Access"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Folder"
+                    },
+                    {
+                        "name": "space",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "Space ID"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Space"
+                    },
+                    {
+                        "name": "custom_fields",
+                        "spec": [],
+                        "type": "collection",
+                        "label": "Custom Fields"
+                    },
+                    {
+                        "name": "dependencies",
+                        "spec": {
+                            "spec": [
+                                {
+                                    "name": "task_id",
+                                    "type": "text",
+                                    "label": "Task ID"
+                                },
+                                {
+                                    "name": "depends_on",
+                                    "type": "text",
+                                    "label": "Depends On Task ID"
+                                },
+                                {
+                                    "name": "type",
+                                    "type": "number",
+                                    "label": "Type"
+                                },
+                                {
+                                    "name": "date_created",
+                                    "type": "date",
+                                    "label": "Date Created"
+                                },
+                                {
+                                    "name": "userid",
+                                    "type": "text",
+                                    "label": "User ID"
+                                }
+                            ],
+                            "type": "collection"
+                        },
+                        "type": "array",
+                        "label": "Dependencies"
+                    },
+                    {
+                        "name": "team_id",
+                        "type": "text",
+                        "label": "Workspace ID"
+                    },
+                    {
+                        "name": "url",
+                        "type": "url",
+                        "label": "URL"
+                    },
+                    {
+                        "name": "attachments",
+                        "type": "array",
+                        "label": "Attachments"
+                    },
+                    {
+                        "name": "custom_fields_original",
+                        "spec": {
+                            "spec": [
+                                {
+                                    "name": "id",
+                                    "type": "text",
+                                    "label": "ID"
+                                },
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Name"
+                                },
+                                {
+                                    "name": "type",
+                                    "type": "text",
+                                    "label": "Type"
+                                },
+                                {
+                                    "name": "type_config",
+                                    "spec": [],
+                                    "type": "collection",
+                                    "label": "Type Config"
+                                },
+                                {
+                                    "name": "date_created",
+                                    "type": "date",
+                                    "label": "Date Created"
+                                },
+                                {
+                                    "name": "hide_from_guests",
+                                    "type": "boolean",
+                                    "label": "Hide From Guests"
+                                },
+                                {
+                                    "name": "value",
+                                    "type": "any",
+                                    "label": "Value"
+                                }
+                            ],
+                            "type": "collection"
+                        },
+                        "type": "array",
+                        "label": "Custom Fields (original)"
+                    }
+                ]
+            },
+            "onerror": [
+                {
+                    "id": 36,
+                    "module": "builtin:Ignore",
+                    "version": 1,
+                    "filter": {
+                        "name": "Ignore Errors (404)",
+                        "conditions": [
+                            [
+                                {
+                                    "a": "{{31.error.message}}",
+                                    "b": "404",
+                                    "o": "text:contain:ci"
+                                }
+                            ]
+                        ]
+                    },
+                    "metadata": {
+                        "designer": {
+                            "x": 600,
+                            "y": 600
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": 43,
+            "module": "datastore:SearchRecord",
+            "version": 1,
+            "parameters": {
+                "limit": null,
+                "datastore": 6821
+            },
+            "mapper": {
+                "sort": [],
+                "filter": [
+                    [
+                        {
+                            "a": "ClickUp Assigned Team ID",
+                            "b": "{{31.custom_fields.`Assigned Team`}}",
+                            "o": "number:equal"
+                        }
+                    ]
+                ]
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 150
+                },
+                "restore": {
+                    "parameters": {
+                        "datastore": {
+                            "label": "FD & ClickUp Assigned Team Mapping"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "datastore",
+                        "type": "datastore",
+                        "label": "Data store",
+                        "required": true
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit"
+                    },
+                    {
+                        "name": "continueWhenNoRes",
+                        "type": "boolean",
+                        "label": "Continue the execution of the route even if the module returns no results"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "filter",
+                        "type": "filter",
+                        "label": "Filter",
+                        "options": "rpc://datastore/1.8.2/RpcGetUDTKeys",
+                        "required": true
+                    },
+                    {
+                        "name": "sort",
+                        "spec": [
+                            {
+                                "name": "key",
+                                "type": "select",
+                                "label": "Key",
+                                "dynamic": true,
+                                "options": [],
+                                "required": true
+                            },
+                            {
+                                "name": "order",
+                                "type": "select",
+                                "label": "Order",
+                                "options": [
+                                    {
+                                        "label": "Ascending",
+                                        "value": 1
+                                    },
+                                    {
+                                        "label": "Descending",
+                                        "value": -1
+                                    }
+                                ],
+                                "required": true
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Sort"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "key",
+                        "type": "text",
+                        "label": "Key"
+                    },
+                    {
+                        "name": "data",
+                        "spec": [
+                            {
+                                "name": "FD Assigned Team",
+                                "type": "text",
+                                "label": null,
+                                "default": null,
+                                "required": true,
+                                "multiline": false
+                            },
+                            {
+                                "name": "ClickUp Assigned Team ID",
+                                "type": "number",
+                                "label": null,
+                                "default": null,
+                                "required": false
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Record"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 39,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 150
+                }
+            },
+            "routes": [
+                {
+                    "flow": [
+                        {
+                            "id": 40,
+                            "module": "freshdesk:viewTicket",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 10434
+                            },
+                            "filter": {
+                                "name": "Update Ticket for Other ClickUp Events != taskCommentPosted",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{30.event}}",
+                                            "b": "taskCommentPosted",
+                                            "o": "text:notequal:ci"
+                                        },
+                                        {
+                                            "a": "{{31.custom_fields.`FD Ticket ID`}}",
+                                            "o": "exist"
+                                        },
+                                        {
+                                            "a": "{{30.history_items[].field}}",
+                                            "b": "comment",
+                                            "o": "text:notcontain:ci"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "id": "{{31.custom_fields.`FD Ticket ID`}}"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1200,
+                                    "y": 0
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "id": {
+                                            "mode": "edit"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "freshdesk"
+                                            },
+                                            "label": "Embrace.IO FreshDesk"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:freshdesk",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "id",
+                                        "type": "select",
+                                        "label": "Ticket ID",
+                                        "required": true
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "cc_emails",
+                                        "spec": {
+                                            "type": "text"
+                                        },
+                                        "type": "array",
+                                        "label": "CC Emails"
+                                    },
+                                    {
+                                        "name": "fwd_emails",
+                                        "type": "array",
+                                        "label": "Forwarded emails"
+                                    },
+                                    {
+                                        "name": "reply_cc_emails",
+                                        "spec": {
+                                            "type": "text"
+                                        },
+                                        "type": "array",
+                                        "label": "Reply CC emails"
+                                    },
+                                    {
+                                        "name": "email_config_id",
+                                        "type": "text",
+                                        "label": "Email config Id"
+                                    },
+                                    {
+                                        "name": "fr_escalated",
+                                        "type": "boolean",
+                                        "label": "Fr escalated"
+                                    },
+                                    {
+                                        "name": "ticket_cc_emails",
+                                        "type": "array",
+                                        "label": "Ticket cc emails"
+                                    },
+                                    {
+                                        "name": "group_id",
+                                        "type": "text",
+                                        "label": "Group Id"
+                                    },
+                                    {
+                                        "name": "priority",
+                                        "type": "number",
+                                        "label": "Priority"
+                                    },
+                                    {
+                                        "name": "requester_id",
+                                        "type": "number",
+                                        "label": "Requester Id"
+                                    },
+                                    {
+                                        "name": "responder_id",
+                                        "type": "text",
+                                        "label": "Responder Id"
+                                    },
+                                    {
+                                        "name": "source",
+                                        "type": "number",
+                                        "label": "Source"
+                                    },
+                                    {
+                                        "name": "spam",
+                                        "type": "boolean",
+                                        "label": "SPAM"
+                                    },
+                                    {
+                                        "name": "status",
+                                        "type": "number",
+                                        "label": "Status"
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "company_id",
+                                        "type": "number",
+                                        "label": "Company Id"
+                                    },
+                                    {
+                                        "name": "id",
+                                        "type": "number",
+                                        "label": "ID"
+                                    },
+                                    {
+                                        "name": "type",
+                                        "type": "text",
+                                        "label": "Type"
+                                    },
+                                    {
+                                        "name": "to_emails",
+                                        "type": "text",
+                                        "label": "To emails"
+                                    },
+                                    {
+                                        "name": "product_id",
+                                        "type": "text",
+                                        "label": "Product Id"
+                                    },
+                                    {
+                                        "name": "created_at",
+                                        "type": "date",
+                                        "label": "Created at"
+                                    },
+                                    {
+                                        "name": "updated_at",
+                                        "type": "date",
+                                        "label": "Updated at"
+                                    },
+                                    {
+                                        "name": "due_by",
+                                        "type": "date",
+                                        "label": "Due by"
+                                    },
+                                    {
+                                        "name": "fr_due_by",
+                                        "type": "date",
+                                        "label": "Fr due by"
+                                    },
+                                    {
+                                        "name": "is_escalated",
+                                        "type": "boolean",
+                                        "label": "Is escalated"
+                                    },
+                                    {
+                                        "name": "description_text",
+                                        "type": "text",
+                                        "label": "Description text"
+                                    },
+                                    {
+                                        "name": "description",
+                                        "type": "text",
+                                        "label": "Description"
+                                    },
+                                    {
+                                        "name": "custom_fields",
+                                        "spec": [
+                                            {
+                                                "name": "cf_resolution_summary",
+                                                "type": "text",
+                                                "label": "Resolution Summary",
+                                                "multiline": true
+                                            },
+                                            {
+                                                "name": "cf_app_id",
+                                                "type": "text",
+                                                "label": "App ID"
+                                            },
+                                            {
+                                                "name": "cf_main_cs_contact",
+                                                "type": "select",
+                                                "label": "Main CS / SE Contact",
+                                                "options": [
+                                                    {
+                                                        "label": "Brian Schell",
+                                                        "value": "Brian Schell"
+                                                    },
+                                                    {
+                                                        "label": "Chris Emma",
+                                                        "value": "Chris Emma"
+                                                    },
+                                                    {
+                                                        "label": "Collin Anderson",
+                                                        "value": "Collin Anderson"
+                                                    },
+                                                    {
+                                                        "label": "David Stahl",
+                                                        "value": "David Stahl"
+                                                    },
+                                                    {
+                                                        "label": "Harry Schaffer",
+                                                        "value": "Harry Schaffer"
+                                                    },
+                                                    {
+                                                        "label": "James Smith",
+                                                        "value": "James Smith"
+                                                    },
+                                                    {
+                                                        "label": "Kathryn Hjalmarson",
+                                                        "value": "Kathryn Hjalmarson"
+                                                    },
+                                                    {
+                                                        "label": "Kristin Hicks",
+                                                        "value": "Kristin Hicks"
+                                                    },
+                                                    {
+                                                        "label": "Magda Splawiec",
+                                                        "value": "Magda Splawiec"
+                                                    },
+                                                    {
+                                                        "label": "Safari Wallace",
+                                                        "value": "Safari Wallace"
+                                                    },
+                                                    {
+                                                        "label": "Walter Rodriguez",
+                                                        "value": "Walter Rodriguez"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            },
+                                            {
+                                                "name": "cf_platform",
+                                                "type": "select",
+                                                "label": "Platform",
+                                                "options": [
+                                                    {
+                                                        "label": "Android",
+                                                        "value": "Android"
+                                                    },
+                                                    {
+                                                        "label": "iOS",
+                                                        "value": "iOS"
+                                                    },
+                                                    {
+                                                        "label": "React Native: Android",
+                                                        "value": "React Native: Android"
+                                                    },
+                                                    {
+                                                        "label": "React Native: iOS",
+                                                        "value": "React Native: iOS"
+                                                    },
+                                                    {
+                                                        "label": "Unity: Android",
+                                                        "value": "Unity: Android"
+                                                    },
+                                                    {
+                                                        "label": "Unity: iOS",
+                                                        "value": "Unity: iOS"
+                                                    },
+                                                    {
+                                                        "label": "Data Intelligence",
+                                                        "value": "Data Intelligence"
+                                                    },
+                                                    {
+                                                        "label": "Embrace Dashboard",
+                                                        "value": "Embrace Dashboard"
+                                                    },
+                                                    {
+                                                        "label": "Other / Multiple Platforms",
+                                                        "value": "Other / Multiple Platforms"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            },
+                                            {
+                                                "name": "cf_account_type",
+                                                "type": "select",
+                                                "label": "Account Type",
+                                                "options": [
+                                                    {
+                                                        "label": "Managed Customer",
+                                                        "value": "Managed Customer"
+                                                    },
+                                                    {
+                                                        "label": "Unmanaged Customer",
+                                                        "value": "Unmanaged Customer"
+                                                    },
+                                                    {
+                                                        "label": "Prospect",
+                                                        "value": "Prospect"
+                                                    },
+                                                    {
+                                                        "label": "N/A",
+                                                        "value": "N/A"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            },
+                                            {
+                                                "name": "cf_assigned_team",
+                                                "type": "select",
+                                                "label": "Assigned Team",
+                                                "options": [
+                                                    {
+                                                        "label": "Android",
+                                                        "value": "Android"
+                                                    },
+                                                    {
+                                                        "label": "CoreXP",
+                                                        "value": "CoreXP"
+                                                    },
+                                                    {
+                                                        "label": "Data",
+                                                        "value": "Data"
+                                                    },
+                                                    {
+                                                        "label": "DevOps",
+                                                        "value": "DevOps"
+                                                    },
+                                                    {
+                                                        "label": "IOS",
+                                                        "value": "IOS"
+                                                    },
+                                                    {
+                                                        "label": "React Native",
+                                                        "value": "React Native"
+                                                    },
+                                                    {
+                                                        "label": "Unity",
+                                                        "value": "Unity"
+                                                    },
+                                                    {
+                                                        "label": "No Team Assigned",
+                                                        "value": "No Team Assigned"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            },
+                                            {
+                                                "name": "cf_clickup_task_status",
+                                                "type": "select",
+                                                "label": "ClickUp Task Status",
+                                                "options": [
+                                                    {
+                                                        "label": "open",
+                                                        "value": "open"
+                                                    },
+                                                    {
+                                                        "label": "in progress",
+                                                        "value": "in progress"
+                                                    },
+                                                    {
+                                                        "label": "review",
+                                                        "value": "review"
+                                                    },
+                                                    {
+                                                        "label": "blocked",
+                                                        "value": "blocked"
+                                                    },
+                                                    {
+                                                        "label": "not needed",
+                                                        "value": "not needed"
+                                                    },
+                                                    {
+                                                        "label": "done",
+                                                        "value": "done"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            },
+                                            {
+                                                "name": "cf_clickup_task_url",
+                                                "type": "text",
+                                                "label": "ClickUp Task URL"
+                                            },
+                                            {
+                                                "name": "cf_planning_week515231",
+                                                "type": "select",
+                                                "label": "Planning Period",
+                                                "options": [
+                                                    {
+                                                        "label": "Not Planned",
+                                                        "value": "Not Planned"
+                                                    },
+                                                    {
+                                                        "label": "ASSESS - CS",
+                                                        "value": "ASSESS - CS"
+                                                    },
+                                                    {
+                                                        "label": "ASSESS - PRODUCT",
+                                                        "value": "ASSESS - PRODUCT"
+                                                    },
+                                                    {
+                                                        "label": "ASSESS - ENG",
+                                                        "value": "ASSESS - ENG"
+                                                    },
+                                                    {
+                                                        "label": "IN - ROADMAP",
+                                                        "value": "IN - ROADMAP"
+                                                    },
+                                                    {
+                                                        "label": "WAITING ON RELEASE",
+                                                        "value": "WAITING ON RELEASE"
+                                                    },
+                                                    {
+                                                        "label": "04/19/22 - 05/02/22",
+                                                        "value": "04/19/22 - 05/02/22"
+                                                    },
+                                                    {
+                                                        "label": "05/03/22 - 05/16/22",
+                                                        "value": "05/03/22 - 05/16/22"
+                                                    },
+                                                    {
+                                                        "label": "05/17/22 - 05/30/22",
+                                                        "value": "05/17/22 - 05/30/22"
+                                                    },
+                                                    {
+                                                        "label": "05/31/22 - 06/13/22",
+                                                        "value": "05/31/22 - 06/13/22"
+                                                    },
+                                                    {
+                                                        "label": "06/14/22 - 06/27/22",
+                                                        "value": "06/14/22 - 06/27/22"
+                                                    },
+                                                    {
+                                                        "label": "06/28/22 - 07/11/22",
+                                                        "value": "06/28/22 - 07/11/22"
+                                                    },
+                                                    {
+                                                        "label": "07/12/22 - 07/25/22",
+                                                        "value": "07/12/22 - 07/25/22"
+                                                    },
+                                                    {
+                                                        "label": "07/26/22 - 08/08/22",
+                                                        "value": "07/26/22 - 08/08/22"
+                                                    },
+                                                    {
+                                                        "label": "08/09/22 - 08/22/22",
+                                                        "value": "08/09/22 - 08/22/22"
+                                                    },
+                                                    {
+                                                        "label": "08/23/22 - 09/05/22",
+                                                        "value": "08/23/22 - 09/05/22"
+                                                    },
+                                                    {
+                                                        "label": "09/06/22 - 09/19/22",
+                                                        "value": "09/06/22 - 09/19/22"
+                                                    },
+                                                    {
+                                                        "label": "09/20/22 - 10/03/22",
+                                                        "value": "09/20/22 - 10/03/22"
+                                                    },
+                                                    {
+                                                        "label": "10/04/22 - 10/17/22",
+                                                        "value": "10/04/22 - 10/17/22"
+                                                    },
+                                                    {
+                                                        "label": "10/18/22 - 10/31/22",
+                                                        "value": "10/18/22 - 10/31/22"
+                                                    },
+                                                    {
+                                                        "label": "11/01/22 - 11/14/22",
+                                                        "value": "11/01/22 - 11/14/22"
+                                                    },
+                                                    {
+                                                        "label": "11/15/22 - 11/28/22",
+                                                        "value": "11/15/22 - 11/28/22"
+                                                    },
+                                                    {
+                                                        "label": "11/29/22 - 12/12/22",
+                                                        "value": "11/29/22 - 12/12/22"
+                                                    },
+                                                    {
+                                                        "label": "12/13/22 - 12/26/22",
+                                                        "value": "12/13/22 - 12/26/22"
+                                                    },
+                                                    {
+                                                        "label": "12/27/22 - 01/09/23",
+                                                        "value": "12/27/22 - 01/09/23"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Custom fields"
+                                    },
+                                    {
+                                        "name": "tags",
+                                        "type": "array",
+                                        "label": "Tags"
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "association_type",
+                                        "type": "text",
+                                        "label": "Association type"
+                                    },
+                                    {
+                                        "name": "source_additional_info",
+                                        "type": "text",
+                                        "label": "Source additional info"
+                                    },
+                                    {
+                                        "name": "requester",
+                                        "spec": [
+                                            {
+                                                "name": "id",
+                                                "type": "text",
+                                                "label": "Requester ID"
+                                            },
+                                            {
+                                                "name": "name",
+                                                "type": "text",
+                                                "label": "Name"
+                                            },
+                                            {
+                                                "name": "email",
+                                                "type": "email",
+                                                "label": "Email"
+                                            },
+                                            {
+                                                "name": "mobile",
+                                                "type": "text",
+                                                "label": "Mobile"
+                                            },
+                                            {
+                                                "name": "phone",
+                                                "type": "text",
+                                                "label": "Phone"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Requester"
+                                    },
+                                    {
+                                        "name": "stats",
+                                        "spec": [
+                                            {
+                                                "name": "agent_responded_at",
+                                                "time": true,
+                                                "type": "date",
+                                                "label": "Agent responded at"
+                                            },
+                                            {
+                                                "name": "requester_responded_at",
+                                                "time": true,
+                                                "type": "date",
+                                                "label": "Requester responded at"
+                                            },
+                                            {
+                                                "name": "first_responded_at",
+                                                "time": true,
+                                                "type": "date",
+                                                "label": "First responded at"
+                                            },
+                                            {
+                                                "name": "status_updated_at",
+                                                "time": true,
+                                                "type": "date",
+                                                "label": "Status updated at"
+                                            },
+                                            {
+                                                "name": "reopened_at",
+                                                "time": true,
+                                                "type": "date",
+                                                "label": "Reopened at"
+                                            },
+                                            {
+                                                "name": "resolved_at",
+                                                "time": true,
+                                                "type": "date",
+                                                "label": "Resolved at"
+                                            },
+                                            {
+                                                "name": "closed_at",
+                                                "time": true,
+                                                "type": "date",
+                                                "label": "Closed at"
+                                            },
+                                            {
+                                                "name": "pending_since",
+                                                "time": true,
+                                                "type": "date",
+                                                "label": "Pending since"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Stats"
+                                    },
+                                    {
+                                        "name": "company",
+                                        "spec": [
+                                            {
+                                                "name": "id",
+                                                "type": "text",
+                                                "label": "Company ID"
+                                            },
+                                            {
+                                                "name": "name",
+                                                "type": "text",
+                                                "label": "Name"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Company"
+                                    },
+                                    {
+                                        "name": "conversations",
+                                        "spec": [
+                                            {
+                                                "name": "body",
+                                                "type": "text",
+                                                "label": "Body"
+                                            },
+                                            {
+                                                "name": "body_text",
+                                                "type": "text",
+                                                "label": "Body Text"
+                                            },
+                                            {
+                                                "name": "id",
+                                                "type": "text",
+                                                "label": "Conversation ID"
+                                            },
+                                            {
+                                                "name": "incoming",
+                                                "type": "boolean",
+                                                "label": "Incoming"
+                                            },
+                                            {
+                                                "name": "private",
+                                                "type": "boolean",
+                                                "label": "Private"
+                                            },
+                                            {
+                                                "name": "user_id",
+                                                "type": "text",
+                                                "label": "User ID"
+                                            },
+                                            {
+                                                "name": "support_email",
+                                                "type": "text",
+                                                "label": "Support email"
+                                            },
+                                            {
+                                                "name": "source",
+                                                "type": "text",
+                                                "label": "Source"
+                                            },
+                                            {
+                                                "name": "category",
+                                                "type": "text",
+                                                "label": "Category"
+                                            },
+                                            {
+                                                "name": "ticket_id",
+                                                "type": "text",
+                                                "label": "Ticket ID"
+                                            },
+                                            {
+                                                "name": "to_emails",
+                                                "type": "array",
+                                                "label": "To emails"
+                                            },
+                                            {
+                                                "name": "from_email",
+                                                "type": "text",
+                                                "label": "From email"
+                                            },
+                                            {
+                                                "name": "cc_emails",
+                                                "type": "array",
+                                                "label": "Cc emails"
+                                            },
+                                            {
+                                                "name": "bcc_emails",
+                                                "type": "array",
+                                                "label": "Bcc emails"
+                                            },
+                                            {
+                                                "name": "email_failure_count",
+                                                "type": "uinteger",
+                                                "label": "Email failure count"
+                                            },
+                                            {
+                                                "name": "outgoing_failures",
+                                                "type": "text",
+                                                "label": "Outgoing failures"
+                                            },
+                                            {
+                                                "name": "created_at",
+                                                "time": true,
+                                                "type": "date",
+                                                "label": "Created at"
+                                            },
+                                            {
+                                                "name": "updated_at",
+                                                "time": true,
+                                                "type": "date",
+                                                "label": "Updated at"
+                                            },
+                                            {
+                                                "name": "attachments",
+                                                "type": "array",
+                                                "label": "Attachments"
+                                            },
+                                            {
+                                                "name": "source_additional_info",
+                                                "type": "text",
+                                                "label": "Source additional info"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Conversations"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 42,
+                            "module": "freshdesk:updateTicket",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 10434
+                            },
+                            "filter": {
+                                "name": "Only update FD if CU event = taskStatusUpdated",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{30.event}}",
+                                            "b": "taskStatusUpdated",
+                                            "o": "text:equal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "id": "{{40.id}}",
+                                "name": "",
+                                "tags": "{{40.tags}}",
+                                "type": "{{40.type}}",
+                                "email": "",
+                                "due_by": "",
+                                "source": "",
+                                "status": "{{40.status}}",
+                                "subject": "{{40.subject}}",
+                                "priority": "{{40.priority}}",
+                                "fr_due_by": "",
+                                "company_id": "",
+                                "product_id": "{{40.product_id}}",
+                                "description": "{{40.description}}",
+                                "requester_id": "{{40.requester_id}}",
+                                "responder_id": "{{40.responder_id}}",
+                                "custom_fields": {
+                                    "cf_app_id": "{{40.custom_fields.cf_app_id}}",
+                                    "cf_platform": "{{40.custom_fields.cf_platform}}",
+                                    "cf_account_type": "{{40.custom_fields.cf_account_type}}",
+                                    "cf_assigned_team": "{{43.data.`FD Assigned Team`}}",
+                                    "cf_clickup_task_id": "{{31.id}}",
+                                    "cf_main_cs_contact": "{{ifempty(40.custom_fields.cf_main_cs_contact; null)}}",
+                                    "cf_clickup_task_url": "{{40.custom_fields.cf_clickup_task_url}}",
+                                    "cf_resolution_summary": "{{ifempty(40.custom_fields.cf_resolution_summary; null)}}",
+                                    "cf_clickup_task_status": "{{ifempty(if(30.event = \"taskStatusUpdated\"; lower(30.history_items[].after.status); lower(31.status.status)); null)}}",
+                                    "cf_planning_week515231": "{{ifempty(40.custom_fields.cf_planning_week515231; \"Not Planned\")}}",
+                                    "cf_clickup_custom_task_id": "{{31.custom_id}}"
+                                },
+                                "email_config_id": ""
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1500,
+                                    "y": 0
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "id": {
+                                            "mode": "edit"
+                                        },
+                                        "tags": {
+                                            "mode": "map"
+                                        },
+                                        "type": {
+                                            "mode": "edit"
+                                        },
+                                        "source": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "status": {
+                                            "mode": "edit"
+                                        },
+                                        "priority": {
+                                            "mode": "edit"
+                                        },
+                                        "custom_fields": {
+                                            "nested": {
+                                                "cf_platform": {
+                                                    "mode": "edit"
+                                                },
+                                                "cf_account_type": {
+                                                    "mode": "edit"
+                                                },
+                                                "cf_assigned_team": {
+                                                    "mode": "edit"
+                                                },
+                                                "cf_main_cs_contact": {
+                                                    "mode": "edit"
+                                                },
+                                                "cf_clickup_task_status": {
+                                                    "mode": "edit"
+                                                },
+                                                "cf_planning_week515231": {
+                                                    "mode": "edit"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "freshdesk"
+                                            },
+                                            "label": "Embrace.IO FreshDesk"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:freshdesk",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "id",
+                                        "type": "select",
+                                        "label": "Ticket",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "name",
+                                        "type": "text",
+                                        "label": "Name of the requester"
+                                    },
+                                    {
+                                        "name": "requester_id",
+                                        "type": "number",
+                                        "label": "Requester ID"
+                                    },
+                                    {
+                                        "name": "email",
+                                        "type": "email",
+                                        "label": "Requester's email"
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "description",
+                                        "type": "text",
+                                        "label": "Description"
+                                    },
+                                    {
+                                        "name": "type",
+                                        "type": "select",
+                                        "label": "Type",
+                                        "validate": {
+                                            "enum": [
+                                                "Build",
+                                                "Crashes",
+                                                "Data Integrity / Missing Data",
+                                                "Feature Request",
+                                                "Integration / Configuration",
+                                                "Report / Ad-hoc Analysis",
+                                                "SDK bug / Enhancement",
+                                                "Symbols",
+                                                "UI Bug / Enhancement",
+                                                "Other"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "responder_id",
+                                        "type": "number",
+                                        "label": "Responder ID"
+                                    },
+                                    {
+                                        "name": "status",
+                                        "type": "select",
+                                        "label": "Status",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                2,
+                                                3,
+                                                4,
+                                                5,
+                                                6,
+                                                7,
+                                                8,
+                                                9,
+                                                10,
+                                                11
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "priority",
+                                        "type": "select",
+                                        "label": "Priority",
+                                        "validate": {
+                                            "enum": [
+                                                1,
+                                                2,
+                                                3,
+                                                4
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "due_by",
+                                        "type": "date",
+                                        "label": "Due by"
+                                    },
+                                    {
+                                        "name": "email_config_id",
+                                        "type": "number",
+                                        "label": "Email config ID"
+                                    },
+                                    {
+                                        "name": "fr_due_by",
+                                        "type": "date",
+                                        "label": "First response due by"
+                                    },
+                                    {
+                                        "name": "product_id",
+                                        "type": "number",
+                                        "label": "Product ID"
+                                    },
+                                    {
+                                        "name": "source",
+                                        "type": "select",
+                                        "label": "Source",
+                                        "validate": {
+                                            "enum": [
+                                                1,
+                                                2,
+                                                3,
+                                                7,
+                                                8,
+                                                9,
+                                                10,
+                                                11
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "tags",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text"
+                                        },
+                                        "type": "array",
+                                        "label": "Tags"
+                                    },
+                                    {
+                                        "name": "company_id",
+                                        "type": "number",
+                                        "label": "Company ID"
+                                    },
+                                    {
+                                        "name": "custom_fields",
+                                        "spec": [
+                                            {
+                                                "name": "cf_resolution_summary",
+                                                "type": "text",
+                                                "label": "Resolution Summary"
+                                            },
+                                            {
+                                                "name": "cf_app_id",
+                                                "type": "text",
+                                                "label": "App ID"
+                                            },
+                                            {
+                                                "name": "cf_main_cs_contact",
+                                                "type": "select",
+                                                "label": "Main CS / SE Contact"
+                                            },
+                                            {
+                                                "name": "cf_platform",
+                                                "type": "select",
+                                                "label": "Platform"
+                                            },
+                                            {
+                                                "name": "cf_account_type",
+                                                "type": "select",
+                                                "label": "Account Type"
+                                            },
+                                            {
+                                                "name": "cf_assigned_team",
+                                                "type": "select",
+                                                "label": "Assigned Team"
+                                            },
+                                            {
+                                                "name": "cf_clickup_task_status",
+                                                "type": "select",
+                                                "label": "ClickUp Task Status"
+                                            },
+                                            {
+                                                "name": "cf_clickup_task_id",
+                                                "type": "text",
+                                                "label": "ClickUp Task ID"
+                                            },
+                                            {
+                                                "name": "cf_clickup_custom_task_id",
+                                                "type": "text",
+                                                "label": "ClickUp Custom Task ID"
+                                            },
+                                            {
+                                                "name": "cf_clickup_task_url",
+                                                "type": "text",
+                                                "label": "ClickUp Task URL"
+                                            },
+                                            {
+                                                "name": "cf_planning_week515231",
+                                                "type": "select",
+                                                "label": "Planning Period"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Custom fields"
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "cc_emails",
+                                        "spec": {
+                                            "type": "text"
+                                        },
+                                        "type": "array",
+                                        "label": "CC Emails"
+                                    },
+                                    {
+                                        "name": "fwd_emails",
+                                        "type": "array",
+                                        "label": "Forwarded emails"
+                                    },
+                                    {
+                                        "name": "reply_cc_emails",
+                                        "spec": {
+                                            "type": "text"
+                                        },
+                                        "type": "array",
+                                        "label": "Reply CC emails"
+                                    },
+                                    {
+                                        "name": "email_config_id",
+                                        "type": "text",
+                                        "label": "Email config Id"
+                                    },
+                                    {
+                                        "name": "fr_escalated",
+                                        "type": "boolean",
+                                        "label": "Fr escalated"
+                                    },
+                                    {
+                                        "name": "ticket_cc_emails",
+                                        "type": "array",
+                                        "label": "Ticket cc emails"
+                                    },
+                                    {
+                                        "name": "group_id",
+                                        "type": "text",
+                                        "label": "Group Id"
+                                    },
+                                    {
+                                        "name": "priority",
+                                        "type": "number",
+                                        "label": "Priority"
+                                    },
+                                    {
+                                        "name": "requester_id",
+                                        "type": "number",
+                                        "label": "Requester Id"
+                                    },
+                                    {
+                                        "name": "responder_id",
+                                        "type": "text",
+                                        "label": "Responder Id"
+                                    },
+                                    {
+                                        "name": "source",
+                                        "type": "number",
+                                        "label": "Source"
+                                    },
+                                    {
+                                        "name": "spam",
+                                        "type": "boolean",
+                                        "label": "SPAM"
+                                    },
+                                    {
+                                        "name": "status",
+                                        "type": "number",
+                                        "label": "Status"
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "company_id",
+                                        "type": "number",
+                                        "label": "Company Id"
+                                    },
+                                    {
+                                        "name": "id",
+                                        "type": "number",
+                                        "label": "ID"
+                                    },
+                                    {
+                                        "name": "type",
+                                        "type": "text",
+                                        "label": "Type"
+                                    },
+                                    {
+                                        "name": "to_emails",
+                                        "type": "text",
+                                        "label": "To emails"
+                                    },
+                                    {
+                                        "name": "product_id",
+                                        "type": "text",
+                                        "label": "Product Id"
+                                    },
+                                    {
+                                        "name": "created_at",
+                                        "type": "date",
+                                        "label": "Created at"
+                                    },
+                                    {
+                                        "name": "updated_at",
+                                        "type": "date",
+                                        "label": "Updated at"
+                                    },
+                                    {
+                                        "name": "due_by",
+                                        "type": "date",
+                                        "label": "Due by"
+                                    },
+                                    {
+                                        "name": "fr_due_by",
+                                        "type": "date",
+                                        "label": "Fr due by"
+                                    },
+                                    {
+                                        "name": "is_escalated",
+                                        "type": "boolean",
+                                        "label": "Is escalated"
+                                    },
+                                    {
+                                        "name": "description_text",
+                                        "type": "text",
+                                        "label": "Description text"
+                                    },
+                                    {
+                                        "name": "description",
+                                        "type": "text",
+                                        "label": "Description"
+                                    },
+                                    {
+                                        "name": "custom_fields",
+                                        "spec": [
+                                            {
+                                                "name": "cf_resolution_summary",
+                                                "type": "text",
+                                                "label": "Resolution Summary",
+                                                "multiline": true
+                                            },
+                                            {
+                                                "name": "cf_app_id",
+                                                "type": "text",
+                                                "label": "App ID"
+                                            },
+                                            {
+                                                "name": "cf_main_cs_contact",
+                                                "type": "select",
+                                                "label": "Main CS / SE Contact",
+                                                "options": [
+                                                    {
+                                                        "label": "Brian Schell",
+                                                        "value": "Brian Schell"
+                                                    },
+                                                    {
+                                                        "label": "Chris Emma",
+                                                        "value": "Chris Emma"
+                                                    },
+                                                    {
+                                                        "label": "Collin Anderson",
+                                                        "value": "Collin Anderson"
+                                                    },
+                                                    {
+                                                        "label": "David Stahl",
+                                                        "value": "David Stahl"
+                                                    },
+                                                    {
+                                                        "label": "Harry Schaffer",
+                                                        "value": "Harry Schaffer"
+                                                    },
+                                                    {
+                                                        "label": "James Smith",
+                                                        "value": "James Smith"
+                                                    },
+                                                    {
+                                                        "label": "Kathryn Hjalmarson",
+                                                        "value": "Kathryn Hjalmarson"
+                                                    },
+                                                    {
+                                                        "label": "Kristin Hicks",
+                                                        "value": "Kristin Hicks"
+                                                    },
+                                                    {
+                                                        "label": "Magda Splawiec",
+                                                        "value": "Magda Splawiec"
+                                                    },
+                                                    {
+                                                        "label": "Safari Wallace",
+                                                        "value": "Safari Wallace"
+                                                    },
+                                                    {
+                                                        "label": "Walter Rodriguez",
+                                                        "value": "Walter Rodriguez"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            },
+                                            {
+                                                "name": "cf_platform",
+                                                "type": "select",
+                                                "label": "Platform",
+                                                "options": [
+                                                    {
+                                                        "label": "Android",
+                                                        "value": "Android"
+                                                    },
+                                                    {
+                                                        "label": "iOS",
+                                                        "value": "iOS"
+                                                    },
+                                                    {
+                                                        "label": "React Native: Android",
+                                                        "value": "React Native: Android"
+                                                    },
+                                                    {
+                                                        "label": "React Native: iOS",
+                                                        "value": "React Native: iOS"
+                                                    },
+                                                    {
+                                                        "label": "Unity: Android",
+                                                        "value": "Unity: Android"
+                                                    },
+                                                    {
+                                                        "label": "Unity: iOS",
+                                                        "value": "Unity: iOS"
+                                                    },
+                                                    {
+                                                        "label": "Data Intelligence",
+                                                        "value": "Data Intelligence"
+                                                    },
+                                                    {
+                                                        "label": "Embrace Dashboard",
+                                                        "value": "Embrace Dashboard"
+                                                    },
+                                                    {
+                                                        "label": "Other / Multiple Platforms",
+                                                        "value": "Other / Multiple Platforms"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            },
+                                            {
+                                                "name": "cf_account_type",
+                                                "type": "select",
+                                                "label": "Account Type",
+                                                "options": [
+                                                    {
+                                                        "label": "Managed Customer",
+                                                        "value": "Managed Customer"
+                                                    },
+                                                    {
+                                                        "label": "Unmanaged Customer",
+                                                        "value": "Unmanaged Customer"
+                                                    },
+                                                    {
+                                                        "label": "Prospect",
+                                                        "value": "Prospect"
+                                                    },
+                                                    {
+                                                        "label": "N/A",
+                                                        "value": "N/A"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            },
+                                            {
+                                                "name": "cf_assigned_team",
+                                                "type": "select",
+                                                "label": "Assigned Team",
+                                                "options": [
+                                                    {
+                                                        "label": "Android",
+                                                        "value": "Android"
+                                                    },
+                                                    {
+                                                        "label": "CoreXP",
+                                                        "value": "CoreXP"
+                                                    },
+                                                    {
+                                                        "label": "Data",
+                                                        "value": "Data"
+                                                    },
+                                                    {
+                                                        "label": "DevOps",
+                                                        "value": "DevOps"
+                                                    },
+                                                    {
+                                                        "label": "IOS",
+                                                        "value": "IOS"
+                                                    },
+                                                    {
+                                                        "label": "React Native",
+                                                        "value": "React Native"
+                                                    },
+                                                    {
+                                                        "label": "Unity",
+                                                        "value": "Unity"
+                                                    },
+                                                    {
+                                                        "label": "No Team Assigned",
+                                                        "value": "No Team Assigned"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            },
+                                            {
+                                                "name": "cf_clickup_task_status",
+                                                "type": "select",
+                                                "label": "ClickUp Task Status",
+                                                "options": [
+                                                    {
+                                                        "label": "open",
+                                                        "value": "open"
+                                                    },
+                                                    {
+                                                        "label": "product planning",
+                                                        "value": "product planning"
+                                                    },
+                                                    {
+                                                        "label": "eng - has been triaged",
+                                                        "value": "eng - has been triaged"
+                                                    },
+                                                    {
+                                                        "label": "in progress",
+                                                        "value": "in progress"
+                                                    },
+                                                    {
+                                                        "label": "review",
+                                                        "value": "review"
+                                                    },
+                                                    {
+                                                        "label": "waiting for release",
+                                                        "value": "waiting for release"
+                                                    },
+                                                    {
+                                                        "label": "blocked",
+                                                        "value": "blocked"
+                                                    },
+                                                    {
+                                                        "label": "not needed",
+                                                        "value": "not needed"
+                                                    },
+                                                    {
+                                                        "label": "done",
+                                                        "value": "done"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            },
+                                            {
+                                                "name": "cf_clickup_task_id",
+                                                "type": "text",
+                                                "label": "ClickUp Task ID"
+                                            },
+                                            {
+                                                "name": "cf_clickup_custom_task_id",
+                                                "type": "text",
+                                                "label": "ClickUp Custom Task ID"
+                                            },
+                                            {
+                                                "name": "cf_clickup_task_url",
+                                                "type": "text",
+                                                "label": "ClickUp Task URL"
+                                            },
+                                            {
+                                                "name": "cf_planning_week515231",
+                                                "type": "select",
+                                                "label": "Planning Period",
+                                                "options": [
+                                                    {
+                                                        "label": "Not Planned",
+                                                        "value": "Not Planned"
+                                                    },
+                                                    {
+                                                        "label": "IN - ROADMAP",
+                                                        "value": "IN - ROADMAP"
+                                                    },
+                                                    {
+                                                        "label": "ASSESS - CS",
+                                                        "value": "ASSESS - CS"
+                                                    },
+                                                    {
+                                                        "label": "ASSESS - PRODUCT",
+                                                        "value": "ASSESS - PRODUCT"
+                                                    },
+                                                    {
+                                                        "label": "ASSESS - ENG",
+                                                        "value": "ASSESS - ENG"
+                                                    },
+                                                    {
+                                                        "label": "SPRINT PLANNING",
+                                                        "value": "SPRINT PLANNING"
+                                                    },
+                                                    {
+                                                        "label": "WAITING ON RELEASE",
+                                                        "value": "WAITING ON RELEASE"
+                                                    },
+                                                    {
+                                                        "label": "04/19/22 - 05/02/22",
+                                                        "value": "04/19/22 - 05/02/22"
+                                                    },
+                                                    {
+                                                        "label": "05/03/22 - 05/16/22",
+                                                        "value": "05/03/22 - 05/16/22"
+                                                    },
+                                                    {
+                                                        "label": "05/17/22 - 05/30/22",
+                                                        "value": "05/17/22 - 05/30/22"
+                                                    },
+                                                    {
+                                                        "label": "05/31/22 - 06/13/22",
+                                                        "value": "05/31/22 - 06/13/22"
+                                                    },
+                                                    {
+                                                        "label": "06/14/22 - 06/27/22",
+                                                        "value": "06/14/22 - 06/27/22"
+                                                    },
+                                                    {
+                                                        "label": "06/28/22 - 07/11/22",
+                                                        "value": "06/28/22 - 07/11/22"
+                                                    },
+                                                    {
+                                                        "label": "07/12/22 - 07/25/22",
+                                                        "value": "07/12/22 - 07/25/22"
+                                                    },
+                                                    {
+                                                        "label": "07/26/22 - 08/08/22",
+                                                        "value": "07/26/22 - 08/08/22"
+                                                    },
+                                                    {
+                                                        "label": "08/09/22 - 08/22/22",
+                                                        "value": "08/09/22 - 08/22/22"
+                                                    },
+                                                    {
+                                                        "label": "08/23/22 - 09/05/22",
+                                                        "value": "08/23/22 - 09/05/22"
+                                                    },
+                                                    {
+                                                        "label": "09/06/22 - 09/19/22",
+                                                        "value": "09/06/22 - 09/19/22"
+                                                    },
+                                                    {
+                                                        "label": "09/20/22 - 10/03/22",
+                                                        "value": "09/20/22 - 10/03/22"
+                                                    },
+                                                    {
+                                                        "label": "10/04/22 - 10/17/22",
+                                                        "value": "10/04/22 - 10/17/22"
+                                                    },
+                                                    {
+                                                        "label": "10/18/22 - 10/31/22",
+                                                        "value": "10/18/22 - 10/31/22"
+                                                    },
+                                                    {
+                                                        "label": "11/01/22 - 11/14/22",
+                                                        "value": "11/01/22 - 11/14/22"
+                                                    },
+                                                    {
+                                                        "label": "11/15/22 - 11/28/22",
+                                                        "value": "11/15/22 - 11/28/22"
+                                                    },
+                                                    {
+                                                        "label": "11/29/22 - 12/12/22",
+                                                        "value": "11/29/22 - 12/12/22"
+                                                    },
+                                                    {
+                                                        "label": "12/13/22 - 12/26/22",
+                                                        "value": "12/13/22 - 12/26/22"
+                                                    },
+                                                    {
+                                                        "label": "12/27/22 - 01/09/23",
+                                                        "value": "12/27/22 - 01/09/23"
+                                                    }
+                                                ],
+                                                "editable": true,
+                                                "validate": false
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Custom fields"
+                                    },
+                                    {
+                                        "name": "tags",
+                                        "type": "array",
+                                        "label": "Tags"
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "association_type",
+                                        "type": "text",
+                                        "label": "Association type"
+                                    },
+                                    {
+                                        "name": "source_additional_info",
+                                        "type": "text",
+                                        "label": "Source additional info"
+                                    },
+                                    {
+                                        "name": "associated_tickets_count",
+                                        "type": "uinteger",
+                                        "label": "Associated tickets count"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 27,
+                            "module": "freshdesk:createNote",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 10434
+                            },
+                            "filter": {
+                                "name": "Comment Added In ClickUp & FD Ticket ID Exists",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{30.event}}",
+                                            "b": "taskCommentPosted",
+                                            "o": "text:equal"
+                                        },
+                                        {
+                                            "a": "{{31.custom_fields.`FD Ticket ID`}}",
+                                            "o": "exist"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "id": "{{31.custom_fields.`FD Ticket ID`}}",
+                                "body": "Comment Added in ClickUp (Automated) {{carriagereturn}}{User: {{30.history_items[].user.username}}}{{carriagereturn}}\n{{30.history_items[].comment.text_content}}",
+                                "private": true,
+                                "user_id": 66020491127,
+                                "incoming": true,
+                                "notify_emails": []
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1200,
+                                    "y": 300
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "id": {
+                                            "mode": "edit"
+                                        },
+                                        "private": {
+                                            "mode": "chose"
+                                        },
+                                        "user_id": {
+                                            "mode": "chose",
+                                            "label": "Wyle Cordero"
+                                        },
+                                        "incoming": {
+                                            "mode": "chose"
+                                        },
+                                        "notify_emails": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "freshdesk"
+                                            },
+                                            "label": "Embrace.IO FreshDesk"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:freshdesk",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "id",
+                                        "type": "select",
+                                        "label": "Ticket",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "body",
+                                        "type": "text",
+                                        "label": "Body"
+                                    },
+                                    {
+                                        "name": "incoming",
+                                        "type": "boolean",
+                                        "label": "Incoming",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "notify_emails",
+                                        "type": "select",
+                                        "label": "Notify emails",
+                                        "multiple": true
+                                    },
+                                    {
+                                        "name": "private",
+                                        "type": "boolean",
+                                        "label": "Private",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "user_id",
+                                        "type": "select",
+                                        "label": "Agent ID"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": true,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": true,
+            "confidential": false,
+            "dataloss": true,
+            "dlq": true
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us1.make.com"
+    },
+    "io": {
+        "input_spec": [],
+        "output_spec": []
+    }
+}
